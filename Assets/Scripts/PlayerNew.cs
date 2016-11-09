@@ -17,6 +17,8 @@ public class PlayerNew : MonoBehaviour {
 
 	bool crouch = false;
 
+	public GameObject PlayerRemains;
+
 	/*
 		if (GameObject.Find("name of the gameobject holding the script with the bool").GetComponent<name of the script holding the bool>().IsLightOn);
 		 -----------------
@@ -90,6 +92,14 @@ public class PlayerNew : MonoBehaviour {
 				velocity.y = jumpVelocity;
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.K)) {
+			//Instantiate(PlayerRemains, transform.position, transform.rotation);
+//			PlayerRemains = (GameObject)Instantiate(PlayerRemains);
+//			Destroy (gameObject);
+			PlayerRemains.SetActive(true);
+			Destroy (gameObject);
+		}
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
@@ -98,10 +108,23 @@ public class PlayerNew : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 
-		else if (col.gameObject.tag == "Obstacle")
-		{
-			Application.LoadLevel(0);
-			Cursor.visible = true;
+//		else if (col.gameObject.tag == "Obstacle")
+//		{
+////			Application.LoadLevel(0);
+////			Cursor.visible = true;
+////			PlayerRemains = (GameObject)Instantiate(PlayerRemains);
+////			Instantiate(PlayerRemains, transform.position, transform.rotation);
+//			PlayerRemains.SetActive(true);
+//			Destroy (gameObject);
+//		}
+	}
+
+	void OnCollisionEnter2D(Collision2D  collision) {
+		Collider2D collider = collision.collider;
+
+		if(collider.tag == "Obstacle") {
+			PlayerRemains.SetActive(true);
+			Destroy (gameObject);
 		}
 	}
 
