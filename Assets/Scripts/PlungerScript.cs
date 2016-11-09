@@ -14,7 +14,7 @@ public class PlungerScript : MonoBehaviour {
 	private Transform pipe;
 	private bool clickedOn;
 	[HideInInspector]
-	//public bool platformLaunched;
+	public bool platformLaunched;
 	private Ray rayToMouse;
 	private Ray pipeToPlatformRay;
 	private float maxStretchSqr;
@@ -49,7 +49,7 @@ public class PlungerScript : MonoBehaviour {
 				Destroy(spring);
 				GetComponent<Rigidbody2D>().velocity = prevVelocity;
 				Cursor.visible = false;
-				//platformLaunched = true;
+				platformLaunched = true;
 			}
 
 			if (!clickedOn) {
