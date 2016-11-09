@@ -78,6 +78,7 @@ public class PlayerNew : MonoBehaviour {
 		else if (col.gameObject.tag == "Obstacle")
 		{
 			Application.LoadLevel(0);
+			Cursor.visible = true;
 		}
 	}
 		
