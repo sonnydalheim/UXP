@@ -41,14 +41,6 @@ public class CameraFollowSimple : MonoBehaviour {
 		if (plungerScript.platformLaunched == true) {
 			ZoomOut();
 		}
-
-//		if (GameObject.FindWithTag("Platform").GetComponent<PlungerScript>().platformLaunched) {
-//			targetOrtho = 0.2f * zoomSpeed;
-//			targetOrtho = Mathf.Clamp (targetOrtho, minOrtho, maxOrtho);
-//
-//			Camera.main.orthographicSize = Mathf.MoveTowards (Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
-//		}
-		Debug.Log(plungerScript.platformLaunched);
 	}
 
 	void ZoomOut() {
