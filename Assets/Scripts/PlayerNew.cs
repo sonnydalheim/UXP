@@ -92,8 +92,7 @@ public class PlayerNew : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D (Collider2D col)
-	{
+	void OnTriggerEnter2D (Collider2D col) {
 		if (col.gameObject.tag == "Coin")
 		{
 			Destroy(col.gameObject);
@@ -105,5 +104,28 @@ public class PlayerNew : MonoBehaviour {
 			Cursor.visible = true;
 		}
 	}
+
+//	void OnCollisionEnter2D(Collision2D  collision) {
+//
+//		Collider2D collider = collision.collider;
+//		bool collideFromLeft;
+//		bool collideFromTop;
+//		bool collideFromRight;
+//		bool collideFromBottom;
+//		float RectWidth = this.GetComponent<BoxCollider2D> ().bounds.size.x;
+//		float RectHeight = this.GetComponent<BoxCollider2D> ().bounds.size.y;
+//		float circleRad = collider.bounds.size.x;
+//
+//		if(collider.tag == "Walking Platform") {
+//
+//			Vector3 contactPoint = collision.contacts[0].point;
+//			Vector3 center = collider.bounds.center;
+//
+//			if (contactPoint.x < center.x && (contactPoint.y < center.y + RectHeight / 2 && contactPoint.y > center.y - RectHeight / 2)) {
+//				//collideFromLeft = true;
+//				Application.LoadLevel(0);
+//			}
+//		} 
+//	}
 		
 }
