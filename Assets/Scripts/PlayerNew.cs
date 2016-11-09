@@ -123,8 +123,10 @@ public class PlayerNew : MonoBehaviour {
 		Collider2D collider = collision.collider;
 
 		if(collider.tag == "Obstacle") {
-			PlayerRemains.SetActive(true);
 			Destroy (gameObject);
+			PlayerRemains.SetActive(true);
+			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
+
 		}
 	}
 
