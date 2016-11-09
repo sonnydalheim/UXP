@@ -66,6 +66,30 @@ public class PlayerNew : MonoBehaviour {
 			transform.position += new Vector3(0, 0.25f,0);
 			crouch = false;
 		}
+
+		// Touch controls.
+
+		foreach(Touch touch in Input.touches) {
+
+			Vector3 position = Input.touches[0].position;
+			
+			if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
+				if(crouch == false) {
+					transform.localScale += new Vector3(0f, -0.5f, 0);
+					transform.position += new Vector3(0, -0.25f, 0);
+					crouch = true;
+				}
+			}
+			else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
+				transform.localScale += new Vector3(0, 0.5f, 0);
+				transform.position += new Vector3(0, 0.25f,0);
+				crouch = false;
+			}
+
+			if(touch.phase == TouchPhase.Began && position.x > (Screen.width / 2)) {
+				velocity.y = jumpVelocity;
+			}
+		}
 	}
 
 	void OnTriggerEnter2D (Collider2D col)
