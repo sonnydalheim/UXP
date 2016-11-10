@@ -47,6 +47,30 @@ public class PlayerNew : MonoBehaviour {
 			velocity.y = 0;
 		}
 
+		// Touch controls.
+
+		foreach(Touch touch in Input.touches) {
+
+			Vector3 position = Input.touches[0].position;
+
+			if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
+				if(crouch == false) {
+					transform.localScale += new Vector3(0f, -0.5f, 0);
+					transform.position += new Vector3(0, -0.25f, 0);
+					crouch = true;
+				}
+			}
+			else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
+				transform.localScale += new Vector3(0, 0.5f, 0);
+				transform.position += new Vector3(0, 0.25f,0);
+				crouch = false;
+			}
+
+			if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
+				velocity.y = jumpVelocity;
+			}
+		}
+
 		Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
 
 		if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below) {
@@ -67,30 +91,6 @@ public class PlayerNew : MonoBehaviour {
 			transform.localScale += new Vector3(0, 0.5f, 0);
 			transform.position += new Vector3(0, 0.25f,0);
 			crouch = false;
-		}
-
-		// Touch controls.
-
-		foreach(Touch touch in Input.touches) {
-
-			Vector3 position = Input.touches[0].position;
-			
-			if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
-				if(crouch == false) {
-					transform.localScale += new Vector3(0f, -0.5f, 0);
-					transform.position += new Vector3(0, -0.25f, 0);
-					crouch = true;
-				}
-			}
-			else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
-				transform.localScale += new Vector3(0, 0.5f, 0);
-				transform.position += new Vector3(0, 0.25f,0);
-				crouch = false;
-			}
-
-			if(touch.phase == TouchPhase.Began && position.x > (Screen.width / 2)) {
-				velocity.y = jumpVelocity;
-			}
 		}
 	}
 
