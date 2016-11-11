@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent (typeof (Controller2D))]
-public class PlayerNew : MonoBehaviour {
+public class PlayerNew2 : MonoBehaviour {
 
 	public float jumpHeight = 4;
 	public float timeToJumpApex = .4f;
@@ -17,7 +17,7 @@ public class PlayerNew : MonoBehaviour {
 
 	bool crouch = false;
 	public PlungerScript plungerScript;
-	public GameObject PlayerRemains;
+	//public GameObject PlayerRemains;
 
 	/*
 		if (GameObject.Find("name of the gameobject holding the script with the bool").GetComponent<name of the script holding the bool>().IsLightOn);
@@ -120,12 +120,12 @@ public class PlayerNew : MonoBehaviour {
 		Collider2D collider = collision.collider;
 
 		if(collider.tag == "Obstacle") {
-			PlayerRemains.transform.SetParent(null);
-			Destroy (gameObject);
-			PlayerRemains.SetActive(true);
-			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
+			//PlayerRemains.transform.SetParent(null);
+//			Destroy (gameObject);
+//			PlayerRemains.SetActive(true);
+//			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
 //			StartCoroutine(Example());
-//			Application.LoadLevel(0);
+			Application.LoadLevel(0);
 		}
 	}
 

@@ -48,7 +48,7 @@ public class PlungerScript : MonoBehaviour {
 			if (!GetComponent<Rigidbody2D>().isKinematic && prevVelocity.sqrMagnitude > GetComponent<Rigidbody2D>().velocity.sqrMagnitude) {
 				Destroy(spring);
 				GetComponent<Rigidbody2D>().velocity = prevVelocity;
-				Cursor.visible = false;
+				//Cursor.visible = false;
 				platformLaunched = true;
 			}
 

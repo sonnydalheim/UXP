@@ -52,6 +52,14 @@ public class CameraFollowSimple : MonoBehaviour {
 		//plungerScript.platformLaunched = false;
 	}
 
+	public void ClickButtonOne() {
+		Application.LoadLevel(0);
+	}
+
+	public void ClickButtonTwo() {
+		Application.LoadLevel(1);
+	}
+
 //	void LateUpdate () {
 //		transform.position = player.transform.position + offset;
 //	}
