@@ -30,7 +30,7 @@ public class CameraFollowSimple2 : MonoBehaviour {
 		offset = transform.position;
 	}
 
-//	void Update() {
+	void Update() {
 //		if (target) {
 //			Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
 //			Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.3f, 0.5f, point.z)); //(new Vector3(0.5, 0.5, point.z));
@@ -50,7 +50,22 @@ public class CameraFollowSimple2 : MonoBehaviour {
 //		Camera.main.orthographicSize = Mathf.MoveTowards (Camera.main.orthographicSize, targetOrtho, smoothSpeed * Time.deltaTime);
 //
 //		//plungerScript.platformLaunched = false;
-//	}
+
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Application.LoadLevel(0);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
+			Application.LoadLevel(0);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2)) {
+			Application.LoadLevel(1);
+			Cursor.visible = true;
+		}
+	}
 
 	public void ClickButtonOne() {
 		Application.LoadLevel(0);

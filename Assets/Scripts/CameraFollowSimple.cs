@@ -41,6 +41,21 @@ public class CameraFollowSimple : MonoBehaviour {
 		if (plungerScript.platformLaunched == true) {
 			ZoomOut();
 		}
+
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Application.LoadLevel(1);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
+			Application.LoadLevel(0);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2)) {
+			Application.LoadLevel(1);
+			Cursor.visible = true;
+		}
 	}
 
 	void ZoomOut() {

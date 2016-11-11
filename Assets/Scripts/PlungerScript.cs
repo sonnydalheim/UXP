@@ -48,7 +48,7 @@ public class PlungerScript : MonoBehaviour {
 			if (!GetComponent<Rigidbody2D>().isKinematic && prevVelocity.sqrMagnitude > GetComponent<Rigidbody2D>().velocity.sqrMagnitude) {
 				Destroy(spring);
 				GetComponent<Rigidbody2D>().velocity = prevVelocity;
-				//Cursor.visible = false;
+				Cursor.visible = false;
 				platformLaunched = true;
 			}
 
@@ -60,11 +60,6 @@ public class PlungerScript : MonoBehaviour {
 		}
 		else {
 			slingBand.enabled = false;
-		}
-
-		if (Input.GetKeyDown(KeyCode.R)) {
-			Application.LoadLevel(0);
-			Cursor.visible = true;
 		}
 	}
 
