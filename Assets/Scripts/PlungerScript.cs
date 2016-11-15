@@ -56,7 +56,7 @@ public class PlungerScript : MonoBehaviour {
 				prevVelocity = GetComponent<Rigidbody2D>().velocity;
 			}
 
-			LineRendererUpdate();
+			//LineRendererUpdate();
 		}
 		else {
 			slingBand.enabled = false;
@@ -80,7 +80,6 @@ public class PlungerScript : MonoBehaviour {
 		spring.enabled = true;
 		GetComponent<Rigidbody2D>().isKinematic = false;
 		clickedOn = false;
-		//platformLaunched = true;
 	}
 
 	void Dragging () {
@@ -91,18 +90,22 @@ public class PlungerScript : MonoBehaviour {
 			rayToMouse.direction = pipeToMouse;
 			mouseWorldPoint = rayToMouse.GetPoint(maxStretch);
 		}
-
+			
 		mouseWorldPoint.z = 0f;
 
-		//Constrain the platform movement to the x-axis.
+		// Constrain the platform movement to the x-axis.
 		mouseWorldPoint.y = 0f;
-		transform.position = mouseWorldPoint;
+
+		// The condition in if-statement is to prevent player from dragging the platform to the right.
+		if(mouseWorldPoint.x < transform.position.x) {
+			transform.position = mouseWorldPoint;
+		}
 	}
 
-	void LineRendererUpdate() {
-		Vector2 pipeToPlatform = transform.position - slingBand.transform.position;
-		pipeToPlatformRay.direction = pipeToPlatform;
-		Vector3 holdPoint = pipeToPlatformRay.GetPoint(pipeToPlatform.magnitude + circleRadius);
-		slingBand.SetPosition(1, holdPoint);
-	}
+//	void LineRendererUpdate() {
+//		Vector2 pipeToPlatform = transform.position - slingBand.transform.position;
+//		pipeToPlatformRay.direction = pipeToPlatform;
+//		Vector3 holdPoint = pipeToPlatformRay.GetPoint(pipeToPlatform.magnitude + circleRadius);
+//		slingBand.SetPosition(1, holdPoint);
+//	}
 }
