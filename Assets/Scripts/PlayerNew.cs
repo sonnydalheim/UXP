@@ -19,6 +19,8 @@ public class PlayerNew : MonoBehaviour {
 	public PlungerScript plungerScript;
 	public GameObject PlayerRemains;
 
+	public BoxCollider2D boxCollider;
+
 	/*
 		if (GameObject.Find("name of the gameobject holding the script with the bool").GetComponent<name of the script holding the bool>().IsLightOn);
 		 -----------------
@@ -39,6 +41,8 @@ public class PlayerNew : MonoBehaviour {
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 		print ("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
+
+		boxCollider = GetComponent<BoxCollider2D>();
 	}
 
 	void Update() {
@@ -49,28 +53,31 @@ public class PlayerNew : MonoBehaviour {
 
 		// Touch controls.
 		if(plungerScript.platformLaunched == true) {
-		foreach(Touch touch in Input.touches) {
+			foreach(Touch touch in Input.touches) {
 
-			Vector3 position = Input.touches[0].position;
+				Vector3 position = Input.touches[0].position;
 
-			if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
-				if(crouch == false) {
-					transform.localScale += new Vector3(0f, -0.5f, 0);
-					transform.position += new Vector3(0, -0.25f, 0);
-					crouch = true;
+				if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
+					if(crouch == false) {
+						transform.localScale += new Vector3(0f, -0.5f, 0);
+						transform.position += new Vector3(0, -0.25f, 0);
+						crouch = true;
+					}
+				}
+				else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
+					transform.localScale += new Vector3(0, 0.5f, 0);
+					transform.position += new Vector3(0, 0.25f,0);
+					crouch = false;
+				}
+
+				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
+					velocity.y = jumpVelocity;
 				}
 			}
-			else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
-				transform.localScale += new Vector3(0, 0.5f, 0);
-				transform.position += new Vector3(0, 0.25f,0);
-				crouch = false;
-			}
-
-			if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
-				velocity.y = jumpVelocity;
-			}
 		}
-	}
+//		else {
+//			boxCollider.size = new Vector3(2.0f, 2.0f, 2.0f);
+//		}
 
 		Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
 
@@ -128,6 +135,7 @@ public class PlayerNew : MonoBehaviour {
 //			Application.LoadLevel(0);
 		}
 	}
+
 
 //	void OnCollisionEnter2D(Collision2D  collision) {
 //
