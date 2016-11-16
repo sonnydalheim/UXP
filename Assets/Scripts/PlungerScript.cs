@@ -40,6 +40,10 @@ public class PlungerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+//		Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+//		Vector2 pipeToMouse = mouseWorldPoint - pipe.position;
+
 		if (clickedOn) {
 			Dragging ();
 		}
@@ -77,9 +81,14 @@ public class PlungerScript : MonoBehaviour {
 	}
 
 	void OnMouseUp () {
-		spring.enabled = true;
-		GetComponent<Rigidbody2D>().isKinematic = false;
-		clickedOn = false;
+		Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector2 pipeToMouse = mouseWorldPoint - pipe.position;
+
+		if(pipeToMouse.sqrMagnitude >= maxStretchSqr) {
+			spring.enabled = true;
+			GetComponent<Rigidbody2D>().isKinematic = false;
+			clickedOn = false;	
+		}
 	}
 
 	void Dragging () {
@@ -96,8 +105,8 @@ public class PlungerScript : MonoBehaviour {
 		// Constrain the platform movement to the x-axis.
 		mouseWorldPoint.y = 0f;
 
-		// The condition in if-statement is to prevent player from dragging the platform to the right.
-		if(mouseWorldPoint.x < transform.position.x) {
+		// The if-statement is to prevent player from dragging the platform to the right.
+		if(mouseWorldPoint.x <= transform.position.x) {
 			transform.position = mouseWorldPoint;
 		}
 	}
