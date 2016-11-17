@@ -17,8 +17,14 @@ public class Controller2D : MonoBehaviour {
 	RaycastOrigins raycastOrigins;
 	public CollisionInfo collisions;
 
+	public PlungerScript plungerScript;
+
 	void Start() {
-		collider = GetComponent<BoxCollider2D> ();
+		collider = GetComponent<BoxCollider2D>();
+		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
+		// Making player collider bigger for easier launch.
+		collider.size = new Vector3(2.0f, 2.0f, 2.0f);
+		collider.offset = new Vector2(0, 0.5f);
 		CalculateRaySpacing ();
 	}
 
@@ -111,6 +117,14 @@ public class Controller2D : MonoBehaviour {
 		public void Reset() {
 			above = below = false;
 			left = right = false;
+		}
+	}
+
+	void Update() {
+		// Setting the player collider back to normal size after launch.
+		if(plungerScript.platformLaunched == true) {
+			collider.size = new Vector3(1.0f, 1.0f, 1.0f);
+			collider.offset = new Vector2(0, 0);
 		}
 	}
 

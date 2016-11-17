@@ -75,9 +75,6 @@ public class PlayerNew : MonoBehaviour {
 				}
 			}
 		}
-//		else {
-//			boxCollider.size = new Vector3(2.0f, 2.0f, 2.0f);
-//		}
 
 		Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
 
