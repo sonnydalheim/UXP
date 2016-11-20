@@ -17,9 +17,14 @@ public class PlayerNew : MonoBehaviour {
 
 	bool crouch = false;
 	public PlungerScript plungerScript;
+	private CameraFollowSimple cameraFollowScript;
 	public GameObject PlayerRemains;
 
 	public BoxCollider2D boxCollider;
+
+	Vector2 firstPressPos;
+	Vector2 secondPressPos;
+	Vector2 currentSwipe;
 
 	/*
 		if (GameObject.Find("name of the gameobject holding the script with the bool").GetComponent<name of the script holding the bool>().IsLightOn);
@@ -38,6 +43,7 @@ public class PlayerNew : MonoBehaviour {
 	void Start() {
 		controller = GetComponent<Controller2D> ();
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
+		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 		print ("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
@@ -53,6 +59,49 @@ public class PlayerNew : MonoBehaviour {
 
 		// Touch controls.
 		if(plungerScript.platformLaunched == true) {
+
+//			foreach(Touch touch in Input.touches) {
+//				
+//				Vector3 position = Input.touches[0].position;
+//
+//				if(touch.phase == TouchPhase.Began) {
+//					// save began touch 2d point
+//					firstPressPos = new Vector2(touch.position.x,touch.position.y);
+//
+//					//if ((touch.phase == TouchPhase.Stationary) || (touch.phase == TouchPhase.Moved && touch.deltaPosition.magnitude < 5)) {
+//						if(crouch == false) {
+//							transform.localScale += new Vector3(0f, -0.5f, 0);
+//							transform.position += new Vector3(0, -0.25f, 0);
+//							crouch = true;
+//						}
+//					//}
+//				}
+//				
+//				if(touch.phase == TouchPhase.Ended) {
+//					transform.localScale += new Vector3(0, 0.5f, 0);
+//					transform.position += new Vector3(0, 0.25f,0);
+//					crouch = false;
+//
+//					//save ended touch 2d point
+//					secondPressPos = new Vector2(touch.position.x,touch.position.y);
+//
+//					//create vector from the two points
+//					currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+//
+//					//normalize the 2d vector
+//					currentSwipe.Normalize();
+//
+//					//swipe upwards
+//				if((currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) && controller.collisions.below)
+//					{
+//						velocity.y = jumpVelocity;
+//					}
+//				}
+//			}
+
+
+			//Old touch controls with holding left side of screen for crouch and tapping right side for jump.
+
 			foreach(Touch touch in Input.touches) {
 
 				Vector3 position = Input.touches[0].position;
@@ -69,6 +118,7 @@ public class PlayerNew : MonoBehaviour {
 					transform.position += new Vector3(0, 0.25f,0);
 					crouch = false;
 				}
+
 
 				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
 					velocity.y = jumpVelocity;
@@ -128,6 +178,7 @@ public class PlayerNew : MonoBehaviour {
 			Destroy (gameObject);
 			PlayerRemains.SetActive(true);
 			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
+			cameraFollowScript.ShakeCamera(0.4f, 0.3f);
 //			StartCoroutine(Example());
 //			Application.LoadLevel(0);
 		}

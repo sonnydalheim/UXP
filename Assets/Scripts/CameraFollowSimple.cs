@@ -19,6 +19,9 @@ public class CameraFollowSimple : MonoBehaviour {
 	public float minOrtho = 1.0f;
 	public float maxOrtho = 20.0f;
 
+	public float shakeTimer;
+	public float shakeAmount;
+
 	public PlungerScript plungerScript;
 
 
@@ -56,6 +59,12 @@ public class CameraFollowSimple : MonoBehaviour {
 			Application.LoadLevel(1);
 			Cursor.visible = true;
 		}
+
+		if(shakeTimer >= 0) {
+			Vector2 shakePos = Random.insideUnitCircle * shakeAmount;
+			transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, transform.position.z);
+			shakeTimer -= Time.deltaTime;
+		}
 	}
 
 	void ZoomOut() {
@@ -73,6 +82,11 @@ public class CameraFollowSimple : MonoBehaviour {
 
 	public void ClickButtonTwo() {
 		Application.LoadLevel(1);
+	}
+
+	public void ShakeCamera(float shakePwr, float shakeDur) {
+		shakeAmount = shakePwr;
+		shakeTimer = shakeDur;
 	}
 
 //	void LateUpdate () {
