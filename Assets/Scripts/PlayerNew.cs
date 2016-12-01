@@ -18,7 +18,7 @@ public class PlayerNew : MonoBehaviour {
 	float velocityXSmoothing;
 
 	bool crouch = false;
-	public FreeParallax parallax;
+	//public FreeParallax parallax;
 	public PlungerScript plungerScript;
 	private CameraFollowSimple cameraFollowScript;
 	public GameObject PlayerRemains;
@@ -46,7 +46,7 @@ public class PlayerNew : MonoBehaviour {
 	void Start() {
 		trailRenderer = gameObject.GetComponent<TrailRenderer>();
 		//trailRenderer.sortingLayerName = "Player";
-		parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
+		//parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
 		controller = GetComponent<Controller2D> ();
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
