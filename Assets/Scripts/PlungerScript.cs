@@ -72,7 +72,7 @@ public class PlungerScript : MonoBehaviour {
 		{
 			if (platformLaunched == true)
 			{
-				parallax.Speed = -100.0f;
+				parallax.Speed = -8.0f;
 			}
 			else
 			{
