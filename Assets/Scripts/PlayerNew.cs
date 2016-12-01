@@ -4,6 +4,8 @@ using System.Collections;
 [RequireComponent (typeof (Controller2D))]
 public class PlayerNew : MonoBehaviour {
 
+	private TrailRenderer trailRenderer;
+
 	public float jumpHeight = 4;
 	public float timeToJumpApex = .4f;
 	float accelerationTimeAirborne = .2f;
@@ -16,6 +18,7 @@ public class PlayerNew : MonoBehaviour {
 	float velocityXSmoothing;
 
 	bool crouch = false;
+	public FreeParallax parallax;
 	public PlungerScript plungerScript;
 	private CameraFollowSimple cameraFollowScript;
 	public GameObject PlayerRemains;
@@ -41,6 +44,9 @@ public class PlayerNew : MonoBehaviour {
 	Controller2D controller;
 
 	void Start() {
+		trailRenderer = gameObject.GetComponent<TrailRenderer>();
+		//trailRenderer.sortingLayerName = "Player";
+		parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
 		controller = GetComponent<Controller2D> ();
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
@@ -72,6 +78,7 @@ public class PlayerNew : MonoBehaviour {
 						if(crouch == false) {
 							transform.localScale += new Vector3(0f, -0.5f, 0);
 							transform.position += new Vector3(0, -0.25f, 0);
+							trailRenderer.startWidth = 0.5f;
 							crouch = true;
 						}
 					//}
@@ -80,6 +87,7 @@ public class PlayerNew : MonoBehaviour {
 				if(touch.phase == TouchPhase.Ended) {
 					transform.localScale += new Vector3(0, 0.5f, 0);
 					transform.position += new Vector3(0, 0.25f,0);
+					trailRenderer.startWidth = 1.0f;
 					crouch = false;
 
 					//save ended touch 2d point
@@ -140,11 +148,13 @@ public class PlayerNew : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.S) && crouch == false) {
 			transform.localScale += new Vector3(0f, -0.5f, 0);
 			transform.position += new Vector3(0, -0.25f, 0);
+			trailRenderer.startWidth = 0.5f;
 			crouch = true;
 		}
 		else if (Input.GetKeyDown(KeyCode.S) && crouch == true) {
 			transform.localScale += new Vector3(0, 0.5f, 0);
 			transform.position += new Vector3(0, 0.25f,0);
+			trailRenderer.startWidth = 1.0f;
 			crouch = false;
 		}
 	}
@@ -179,6 +189,7 @@ public class PlayerNew : MonoBehaviour {
 			PlayerRemains.SetActive(true);
 			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
 			cameraFollowScript.ShakeCamera(0.4f, 0.3f);
+			plungerScript.platformLaunched = false;
 //			StartCoroutine(Example());
 //			Application.LoadLevel(0);
 		}
