@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PlungerScript : MonoBehaviour {
 	private Vector3 offset;
 
+	public FreeParallax parallax;
 	public float maxStretch = 3.0f;
 	public LineRenderer slingBand;
 //	public LineRenderer frontSling;
@@ -28,6 +29,7 @@ public class PlungerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
 		// Set the platform position to where it's tied to on the pipe.
 		transform.position = slingBand.transform.position;
 		LineRendererSetup();
@@ -64,6 +66,18 @@ public class PlungerScript : MonoBehaviour {
 		}
 		else {
 			slingBand.enabled = false;
+		}
+
+		if (parallax != null)
+		{
+			if (platformLaunched == true)
+			{
+				parallax.Speed = -100.0f;
+			}
+			else
+			{
+				parallax.Speed = 0.0f;
+			}
 		}
 	}
 

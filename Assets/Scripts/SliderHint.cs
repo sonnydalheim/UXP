@@ -34,7 +34,8 @@ public class SliderHint : MonoBehaviour {
 			transparent = false;
 		}
 		else {
-			Destroy(SliderHintImage);
+			//Destroy(SliderHintImage);
+			gameObject.SetActive(false);
 		}
 	}
 
