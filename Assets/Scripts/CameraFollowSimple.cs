@@ -46,7 +46,7 @@ public class CameraFollowSimple : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.R)) {
-			Application.LoadLevel(1);
+			Application.LoadLevel(Application.loadedLevel);
 			Cursor.visible = true;
 		}
 
@@ -57,6 +57,11 @@ public class CameraFollowSimple : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Alpha2)) {
 			Application.LoadLevel(1);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha3)) {
+			Application.LoadLevel(2);
 			Cursor.visible = true;
 		}
 
