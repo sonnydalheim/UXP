@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerNew : MonoBehaviour {
 
 	private TrailRenderer trailRenderer;
+	//public Transform particleSystem;
 
 	public float jumpHeight = 4;
 	public float timeToJumpApex = .4f;
@@ -47,6 +48,7 @@ public class PlayerNew : MonoBehaviour {
 		trailRenderer = gameObject.GetComponent<TrailRenderer>();
 		//trailRenderer.sortingLayerName = "Player";
 		//parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
+		//particleSystem.GetComponent<ParticleSystem>().enableEmission = false;
 		controller = GetComponent<Controller2D> ();
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
@@ -75,20 +77,23 @@ public class PlayerNew : MonoBehaviour {
 					firstPressPos = new Vector2(touch.position.x,touch.position.y);
 
 					//if ((touch.phase == TouchPhase.Stationary) || (touch.phase == TouchPhase.Moved && touch.deltaPosition.magnitude < 5)) {
+					if (touch.phase == TouchPhase.Stationary) {
 						if(crouch == false) {
 							transform.localScale += new Vector3(0f, -0.5f, 0);
 							transform.position += new Vector3(0, -0.25f, 0);
 							trailRenderer.startWidth = 0.5f;
 							crouch = true;
 						}
-					//}
+					}
 				}
 				
 				if(touch.phase == TouchPhase.Ended) {
-					transform.localScale += new Vector3(0, 0.5f, 0);
-					transform.position += new Vector3(0, 0.25f,0);
-					trailRenderer.startWidth = 1.0f;
-					crouch = false;
+					if(crouch == true) {
+						transform.localScale += new Vector3(0, 0.5f, 0);
+						transform.position += new Vector3(0, 0.25f,0);
+						trailRenderer.startWidth = 1.0f;
+						crouch = false;
+					}
 
 					//save ended touch 2d point
 					secondPressPos = new Vector2(touch.position.x,touch.position.y);
@@ -162,7 +167,9 @@ public class PlayerNew : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D col) {
 		if (col.gameObject.tag == "Coin")
 		{
+			//particleSystem.GetComponent<ParticleSystem>().enableEmission = true;
 			Destroy(col.gameObject);
+			//StartCoroutine(StopParticles());
 		}
 
 //		else if (col.gameObject.tag == "Obstacle")
@@ -175,6 +182,11 @@ public class PlayerNew : MonoBehaviour {
 //			Destroy (gameObject);
 //		}
 	}
+
+//	IEnumerator StopParticles() {
+//		yield return new WaitForSeconds(0.1f);
+//		particleSystem.GetComponent<ParticleSystem>().enableEmission = false;
+//	}
 
 //	IEnumerator Example() {
 //		yield return new WaitForSeconds(4);
