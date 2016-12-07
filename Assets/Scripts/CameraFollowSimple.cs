@@ -4,9 +4,7 @@ using System.Collections;
 public class CameraFollowSimple : MonoBehaviour {
 
 //	public GameObject player;
-//	private Vector3 offset;
-
-
+                          //	private Vector3 offset;
 
 	public float dampTime = 0.15f;
 	private Vector3 velocity = Vector3.zero;

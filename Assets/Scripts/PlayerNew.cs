@@ -45,7 +45,7 @@ public class PlayerNew : MonoBehaviour {
 	Controller2D controller;
 
 	void Start() {
-		trailRenderer = gameObject.GetComponent<TrailRenderer>();
+		trailRenderer = GameObject.FindWithTag("TrailRenderer").GetComponent<TrailRenderer>();
 		//trailRenderer.sortingLayerName = "Player";
 		//parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
 		//particleSystem.GetComponent<ParticleSystem>().enableEmission = false;
