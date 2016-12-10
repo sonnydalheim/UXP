@@ -6,6 +6,7 @@ public class PlungerScript : MonoBehaviour {
 	private Vector3 offset;
 
 	public FreeParallax parallax;
+	public FreeParallax parallaxParticles;
 	public float maxStretch = 3.0f;
 	public LineRenderer slingBand;
 //	public LineRenderer frontSling;
@@ -30,6 +31,7 @@ public class PlungerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
+		parallaxParticles = GameObject.FindWithTag("Parallax Particles").GetComponent<FreeParallax>();
 		// Set the platform position to where it's tied to on the pipe.
 		transform.position = slingBand.transform.position;
 		LineRendererSetup();
@@ -68,8 +70,7 @@ public class PlungerScript : MonoBehaviour {
 			slingBand.enabled = false;
 		}
 
-		if (parallax != null)
-		{
+		if (parallax != null) {
 			if (platformLaunched == true)
 			{
 				parallax.Speed = -8.0f;
@@ -77,6 +78,17 @@ public class PlungerScript : MonoBehaviour {
 			else
 			{
 				parallax.Speed = 0.0f;
+			}
+		}
+
+		if (parallaxParticles != null) {
+			if (platformLaunched == true)
+			{
+				parallaxParticles.Speed = -8.0f;
+			}
+			else
+			{
+				parallaxParticles.Speed = -1.0f;
 			}
 		}
 	}
