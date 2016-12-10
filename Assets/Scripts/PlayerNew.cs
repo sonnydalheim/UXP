@@ -68,75 +68,79 @@ public class PlayerNew : MonoBehaviour {
 		// Touch controls.
 		if(plungerScript.platformLaunched == true) {
 
+			// New touch controls (not working properly. Player ducks everytime he jumps).
+
+//			foreach(Touch touch in Input.touches) {
+//				
+//				Vector3 position = Input.touches[0].position;
+//
+//				if(touch.phase == TouchPhase.Began) {
+//					// save began touch 2d point
+//					firstPressPos = new Vector2(touch.position.x,touch.position.y);
+//
+//					//if ((touch.phase == TouchPhase.Stationary) || (touch.phase == TouchPhase.Moved && touch.deltaPosition.magnitude < 5)) {
+//					if (touch.phase == TouchPhase.Stationary) {
+//						if(crouch == false) {
+//							transform.localScale += new Vector3(0f, -0.5f, 0);
+//							transform.position += new Vector3(0, -0.25f, 0);
+//							trailRenderer.startWidth = 0.5f;
+//							crouch = true;
+//						}
+//					}
+//				}
+//				
+//				if(touch.phase == TouchPhase.Ended) {
+//					if(crouch == true) {
+//						transform.localScale += new Vector3(0, 0.5f, 0);
+//						transform.position += new Vector3(0, 0.25f,0);
+//						trailRenderer.startWidth = 1.0f;
+//						crouch = false;
+//					}
+//
+//					//save ended touch 2d point
+//					secondPressPos = new Vector2(touch.position.x,touch.position.y);
+//
+//					//create vector from the two points
+//					currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+//
+//					//normalize the 2d vector
+//					currentSwipe.Normalize();
+//
+//					//swipe upwards
+//				if((currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) && controller.collisions.below)
+//					{
+//						velocity.y = jumpVelocity;
+//					}
+//				}
+//			}
+
+
+			// Old touch controls with holding left side of screen for crouch and tapping right side for jump.
+
 			foreach(Touch touch in Input.touches) {
-				
+
 				Vector3 position = Input.touches[0].position;
 
-				if(touch.phase == TouchPhase.Began) {
-					// save began touch 2d point
-					firstPressPos = new Vector2(touch.position.x,touch.position.y);
-
-					//if ((touch.phase == TouchPhase.Stationary) || (touch.phase == TouchPhase.Moved && touch.deltaPosition.magnitude < 5)) {
-					if (touch.phase == TouchPhase.Stationary) {
-						if(crouch == false) {
-							transform.localScale += new Vector3(0f, -0.5f, 0);
-							transform.position += new Vector3(0, -0.25f, 0);
-							trailRenderer.startWidth = 0.5f;
-							crouch = true;
-						}
+				if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
+					if(crouch == false) {
+						transform.localScale += new Vector3(0f, -0.5f, 0);
+						transform.position += new Vector3(0, -0.25f, 0);
+						crouch = true;
 					}
 				}
-				
-				if(touch.phase == TouchPhase.Ended) {
+				else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
 					if(crouch == true) {
 						transform.localScale += new Vector3(0, 0.5f, 0);
 						transform.position += new Vector3(0, 0.25f,0);
-						trailRenderer.startWidth = 1.0f;
 						crouch = false;
 					}
+				}
 
-					//save ended touch 2d point
-					secondPressPos = new Vector2(touch.position.x,touch.position.y);
 
-					//create vector from the two points
-					currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
-
-					//normalize the 2d vector
-					currentSwipe.Normalize();
-
-					//swipe upwards
-				if((currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) && controller.collisions.below)
-					{
-						velocity.y = jumpVelocity;
-					}
+				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
+					velocity.y = jumpVelocity;
 				}
 			}
-
-
-			//Old touch controls with holding left side of screen for crouch and tapping right side for jump.
-
-//			foreach(Touch touch in Input.touches) {
-//
-//				Vector3 position = Input.touches[0].position;
-//
-//				if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
-//					if(crouch == false) {
-//						transform.localScale += new Vector3(0f, -0.5f, 0);
-//						transform.position += new Vector3(0, -0.25f, 0);
-//						crouch = true;
-//					}
-//				}
-//				else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
-//					transform.localScale += new Vector3(0, 0.5f, 0);
-//					transform.position += new Vector3(0, 0.25f,0);
-//					crouch = false;
-//				}
-//
-//
-//				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
-//					velocity.y = jumpVelocity;
-//				}
-//			}
 		}
 
 		Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));

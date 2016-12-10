@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CameraFollowSimple : MonoBehaviour {
 
@@ -10,8 +12,11 @@ public class CameraFollowSimple : MonoBehaviour {
 	private Vector3 velocity = Vector3.zero;
 	public Transform target;
 
+	private float distanceMeter;
+	private Text DistanceMeter;
+
 	public float zoomSpeed = 1.0f;
-	public float zoomAmount = 16.0f;
+	public float zoomAmount;
 	public float targetOrtho;
 	public float smoothSpeed = 2.0f;
 	public float minOrtho = 1.0f;
@@ -22,12 +27,24 @@ public class CameraFollowSimple : MonoBehaviour {
 
 	public PlungerScript plungerScript;
 
+	Scene currentScene;
+
 
 
 	// Use this for initialization
 	void Start () {
 		targetOrtho = Camera.main.orthographicSize;
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
+		currentScene = SceneManager.GetActiveScene();
+
+		if(currentScene.name == "Closer Camera") {
+			zoomAmount = 12.0f;
+		}
+		else {
+			zoomAmount = 16.0f;
+		}
+
+		DistanceMeter = GameObject.FindWithTag("DistanceMeter").GetComponent<Text>();
 //		offset = transform.position;
 	}
 
@@ -41,6 +58,17 @@ public class CameraFollowSimple : MonoBehaviour {
 
 		if (plungerScript.platformLaunched == true) {
 			ZoomOut();
+
+			if(currentScene.name == "Screenshake") {
+				Vector2 shakePos = Random.insideUnitCircle * 0.08f;
+				transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, transform.position.z);
+				shakeTimer -= Time.deltaTime;
+			}
+
+			if(DistanceMeter) {
+				distanceMeter += 20 * Time.deltaTime;
+				DistanceMeter.text = "" + distanceMeter.ToString("f0") + "m";
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.R)) {
@@ -63,6 +91,26 @@ public class CameraFollowSimple : MonoBehaviour {
 			Cursor.visible = true;
 		}
 
+		if (Input.GetKeyDown(KeyCode.Alpha4)) {
+			Application.LoadLevel(3);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha5)) {
+			Application.LoadLevel(4);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha6)) {
+			Application.LoadLevel(5);
+			Cursor.visible = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha7)) {
+			Application.LoadLevel(6);
+			Cursor.visible = true;
+		}
+
 		if(shakeTimer >= 0) {
 			Vector2 shakePos = Random.insideUnitCircle * shakeAmount;
 			transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, transform.position.z);
@@ -79,13 +127,13 @@ public class CameraFollowSimple : MonoBehaviour {
 		//plungerScript.platformLaunched = false;
 	}
 
-	public void ClickButtonOne() {
-		Application.LoadLevel(0);
-	}
-
-	public void ClickButtonTwo() {
-		Application.LoadLevel(1);
-	}
+//	public void ClickButtonOne() {
+//		Application.LoadLevel(0);
+//	}
+//
+//	public void ClickButtonTwo() {
+//		Application.LoadLevel(1);
+//	}
 
 	public void ShakeCamera(float shakePwr, float shakeDur) {
 		shakeAmount = shakePwr;
