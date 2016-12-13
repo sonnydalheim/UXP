@@ -30,6 +30,12 @@ public class PlayerNew : MonoBehaviour {
 	Vector2 secondPressPos;
 	Vector2 currentSwipe;
 
+	private Rect leftBox = new Rect(0, 0, Screen.width / 2, Screen.height);
+	private Vector2 positionRef = new Vector2();
+	private int positionFingerId = -1;
+	private Vector2 rotationRef = new Vector2();
+	private int rotationFingerId = -1;
+
 	/*
 		if (GameObject.Find("name of the gameobject holding the script with the bool").GetComponent<name of the script holding the bool>().IsLightOn);
 		 -----------------
@@ -54,7 +60,6 @@ public class PlayerNew : MonoBehaviour {
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-		print ("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
 
 		boxCollider = GetComponent<BoxCollider2D>();
 	}
@@ -79,14 +84,14 @@ public class PlayerNew : MonoBehaviour {
 //					firstPressPos = new Vector2(touch.position.x,touch.position.y);
 //
 //					//if ((touch.phase == TouchPhase.Stationary) || (touch.phase == TouchPhase.Moved && touch.deltaPosition.magnitude < 5)) {
-//					if (touch.phase == TouchPhase.Stationary) {
+//					//if (touch.phase == TouchPhase.Stationary) {
 //						if(crouch == false) {
 //							transform.localScale += new Vector3(0f, -0.5f, 0);
 //							transform.position += new Vector3(0, -0.25f, 0);
 //							trailRenderer.startWidth = 0.5f;
 //							crouch = true;
 //						}
-//					}
+//					//}
 //				}
 //				
 //				if(touch.phase == TouchPhase.Ended) {
@@ -117,28 +122,88 @@ public class PlayerNew : MonoBehaviour {
 
 			// Old touch controls with holding left side of screen for crouch and tapping right side for jump.
 
-			foreach(Touch touch in Input.touches) {
+//			foreach(Touch touch in Input.touches) {
+//
+//				Vector3 position = Input.touches[0].position;
+//
+//				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
+//					velocity.y = jumpVelocity;
+//				}
+//
+//				if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
+//					if(crouch == false) {
+//						transform.localScale += new Vector3(0f, -0.5f, 0);
+//						transform.position += new Vector3(0, -0.25f, 0);
+//						crouch = true;
+//					}
+//				}
+//
+//				if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
+//					if(crouch == true) {
+//						transform.localScale += new Vector3(0, 0.5f, 0);
+//						transform.position += new Vector3(0, 0.25f,0);
+//						crouch = false;
+//					}
+//				}
+//			}
 
-				Vector3 position = Input.touches[0].position;
+			// New touch control manager.
 
-				if(touch.phase == TouchPhase.Began && position.x < (Screen.width / 2)) {
-					if(crouch == false) {
-						transform.localScale += new Vector3(0f, -0.5f, 0);
-						transform.position += new Vector3(0, -0.25f, 0);
-						crouch = true;
+			foreach (Touch touch in Input.touches)
+			{
+				if (touch.phase == TouchPhase.Began)
+				{
+					// add origin for this touch to array
+					if (leftBox.Contains(touch.position))
+					{
+						positionRef = touch.position;
+						positionFingerId = touch.fingerId;
+					}
+					else
+					{
+						rotationRef = touch.position;
+						rotationFingerId = touch.fingerId;
 					}
 				}
-				else if(touch.phase == TouchPhase.Ended && position.x < (Screen.width / 2)) {
-					if(crouch == true) {
-						transform.localScale += new Vector3(0, 0.5f, 0);
-						transform.position += new Vector3(0, 0.25f,0);
-						crouch = false;
+
+				if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+				{
+					if (touch.fingerId == positionFingerId) 
+					{
+						positionFingerId = -1;
+
+						if(crouch == true) 
+						{
+							transform.localScale += new Vector3(0, 0.5f, 0);
+							transform.position += new Vector3(0, 0.25f,0);
+							crouch = false;
+						}
+					}
+
+					if (touch.fingerId == rotationFingerId) 
+					{
+						rotationFingerId = -1;
 					}
 				}
+				else
+				{
+					if (touch.fingerId == positionFingerId)
+					{
+						if(crouch == false)
+						{
+							transform.localScale += new Vector3(0f, -0.5f, 0);
+							transform.position += new Vector3(0, -0.25f, 0);
+							crouch = true;
+						}
+					}
 
-
-				if((touch.phase == TouchPhase.Began && controller.collisions.below) && position.x > (Screen.width / 2)) {
-					velocity.y = jumpVelocity;
+					if (touch.fingerId == rotationFingerId)
+					{
+						if(controller.collisions.below)
+						{
+							velocity.y = jumpVelocity;
+						}
+					}
 				}
 			}
 		}

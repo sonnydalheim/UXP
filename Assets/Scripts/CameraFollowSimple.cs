@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class CameraFollowSimple : MonoBehaviour {
 
-//	public GameObject player;
-                          //	private Vector3 offset;
-
 	public float dampTime = 0.15f;
 	private Vector3 velocity = Vector3.zero;
 	public Transform target;
@@ -30,7 +27,6 @@ public class CameraFollowSimple : MonoBehaviour {
 	Scene currentScene;
 
 
-
 	// Use this for initialization
 	void Start () {
 		targetOrtho = Camera.main.orthographicSize;
@@ -45,7 +41,6 @@ public class CameraFollowSimple : MonoBehaviour {
 		}
 
 		DistanceMeter = GameObject.FindWithTag("DistanceMeter").GetComponent<Text>();
-//		offset = transform.position;
 	}
 
 	void Update() {
@@ -127,20 +122,8 @@ public class CameraFollowSimple : MonoBehaviour {
 		//plungerScript.platformLaunched = false;
 	}
 
-//	public void ClickButtonOne() {
-//		Application.LoadLevel(0);
-//	}
-//
-//	public void ClickButtonTwo() {
-//		Application.LoadLevel(1);
-//	}
-
 	public void ShakeCamera(float shakePwr, float shakeDur) {
 		shakeAmount = shakePwr;
 		shakeTimer = shakeDur;
 	}
-
-//	void LateUpdate () {
-//		transform.position = player.transform.position + offset;
-//	}
 }

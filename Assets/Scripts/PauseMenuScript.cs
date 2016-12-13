@@ -98,4 +98,24 @@ public class PauseMenuScript : MonoBehaviour {
 		Application.LoadLevel(6);
 	}
 
+	public void LoadLevelEight() {
+		Application.LoadLevel(7);
+	}
+
+	public void LoadLevelNine() {
+		Application.LoadLevel(8);
+	}
+
+	public void LoadLevelTen() {
+		Application.LoadLevel(9);
+	}
+
+	public void LoadLevelEleven() {
+		Application.LoadLevel(10);
+	}
+
+	public void LoadLevelTwelve() {
+		Application.LoadLevel(11);
+	}
+
 }

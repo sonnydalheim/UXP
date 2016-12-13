@@ -20,8 +20,10 @@ public class PlungerScript : MonoBehaviour {
 	private Ray rayToMouse;
 	private Ray pipeToPlatformRay;
 	private float maxStretchSqr;
-	private float circleRadius;
+	//private float circleRadius;
 	private Vector2 prevVelocity;
+
+	Scene currentScene;
 
 	void Awake () {
 		spring = GetComponent<SpringJoint2D>();
@@ -31,7 +33,10 @@ public class PlungerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		parallax = GameObject.FindWithTag("Parallax").GetComponent<FreeParallax>();
-		parallaxParticles = GameObject.FindWithTag("Parallax Particles").GetComponent<FreeParallax>();
+
+		if(currentScene.name == "Air Particles") {
+			parallaxParticles = GameObject.FindWithTag("Parallax Particles").GetComponent<FreeParallax>();
+		}
 		// Set the platform position to where it's tied to on the pipe.
 		transform.position = slingBand.transform.position;
 		LineRendererSetup();
@@ -39,7 +44,7 @@ public class PlungerScript : MonoBehaviour {
 		pipeToPlatformRay = new Ray(slingBand.transform.position, Vector3.zero);
 		maxStretchSqr = maxStretch * maxStretch;
 		CircleCollider2D circle = GetComponent<Collider2D>() as CircleCollider2D;
-		circleRadius = circle.radius;
+		//circleRadius = circle.radius;
 	}
 	
 	// Update is called once per frame
