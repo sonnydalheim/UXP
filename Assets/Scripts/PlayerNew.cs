@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof (Controller2D))]
 public class PlayerNew : MonoBehaviour {
+
+	Scene currentScene;
 
 	private TrailRenderer trailRenderer;
 	//public Transform particleSystem;
@@ -25,6 +29,9 @@ public class PlayerNew : MonoBehaviour {
 	public GameObject PlayerRemains;
 
 	public BoxCollider2D boxCollider;
+
+	private float coinCounter;
+	private Text CoinDisplay;
 
 	Vector2 firstPressPos;
 	Vector2 secondPressPos;
@@ -60,8 +67,16 @@ public class PlayerNew : MonoBehaviour {
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-
+		currentScene = SceneManager.GetActiveScene();
 		boxCollider = GetComponent<BoxCollider2D>();
+		CoinDisplay = GameObject.FindWithTag("Coin Counter").GetComponent<Text>();
+
+		if(currentScene.name == "Dense Level") {
+			CoinDisplay.text = "" + coinCounter.ToString("f0") + "/30";
+		}
+		else {
+			CoinDisplay.text = "" + coinCounter.ToString("f0") + "/23";
+		}
 	}
 
 	void Update() {
@@ -176,6 +191,13 @@ public class PlayerNew : MonoBehaviour {
 						{
 							transform.localScale += new Vector3(0, 0.5f, 0);
 							transform.position += new Vector3(0, 0.25f,0);
+
+							if(currentScene.name == "Jittering Trail") {
+								trailRenderer.startWidth = 2.0f;
+							}
+							else {
+								trailRenderer.startWidth = 1.0f;
+							}
 							crouch = false;
 						}
 					}
@@ -193,6 +215,13 @@ public class PlayerNew : MonoBehaviour {
 						{
 							transform.localScale += new Vector3(0f, -0.5f, 0);
 							transform.position += new Vector3(0, -0.25f, 0);
+
+							if(currentScene.name == "Jittering Trail") {
+								trailRenderer.startWidth = 1.0f;
+							}
+							else {
+								trailRenderer.startWidth = 0.5f;
+							}
 							crouch = true;
 						}
 					}
@@ -236,9 +265,15 @@ public class PlayerNew : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D col) {
 		if (col.gameObject.tag == "Coin")
 		{
-			//particleSystem.GetComponent<ParticleSystem>().enableEmission = true;
+			coinCounter++;
+
+			if(currentScene.name == "Dense Level") {
+				CoinDisplay.text = "" + coinCounter.ToString("f0") + "/30";
+			}
+			else {
+				CoinDisplay.text = "" + coinCounter.ToString("f0") + "/23";
+			}
 			Destroy(col.gameObject);
-			//StartCoroutine(StopParticles());
 		}
 
 //		else if (col.gameObject.tag == "Obstacle")

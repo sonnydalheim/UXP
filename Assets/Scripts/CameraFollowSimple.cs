@@ -40,7 +40,9 @@ public class CameraFollowSimple : MonoBehaviour {
 			zoomAmount = 16.0f;
 		}
 
-		DistanceMeter = GameObject.FindWithTag("DistanceMeter").GetComponent<Text>();
+		if (currentScene.name == "Distance Meter" || currentScene.name == "Test Level") {
+			DistanceMeter = GameObject.FindWithTag("DistanceMeter").GetComponent<Text>();
+		}
 	}
 
 	void Update() {
