@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuScript : MonoBehaviour {
 
+	Scene currentScene;
+	private int currentSceneIndex;
+
 	private GameObject menuOpenButton;
 	private GameObject menuCloseButton;
+	private GameObject dieMenu;
 
 	//refrence for the pause menu panel in the hierarchy
 	public GameObject pauseMenuPanel;
@@ -14,6 +19,9 @@ public class PauseMenuScript : MonoBehaviour {
 	private bool isPaused = false;
 	// Use this for initialization
 	void Start () {
+		currentScene = SceneManager.GetActiveScene();
+		currentSceneIndex = currentScene.buildIndex;
+
 		//unpause the game on start
 		Time.timeScale = 1;
 		//get the animator component
@@ -23,7 +31,9 @@ public class PauseMenuScript : MonoBehaviour {
 
 		menuOpenButton = GameObject.FindWithTag("Menu Open Button");
 		menuCloseButton = GameObject.FindWithTag("Menu Close Button");
+		dieMenu = GameObject.FindWithTag("Die Menu Canvas");
 
+		dieMenu.SetActive(false);
 		menuCloseButton.SetActive(false);
 	}
 
@@ -41,6 +51,10 @@ public class PauseMenuScript : MonoBehaviour {
 
 	//function to pause the game
 	public void PauseGame(){
+		if(dieMenu) {
+			dieMenu.SetActive(false);
+		}
+
 		menuOpenButton.SetActive(false);
 		menuCloseButton.SetActive(true);
 
@@ -68,6 +82,18 @@ public class PauseMenuScript : MonoBehaviour {
 
 	public void QuitGame() {
 		Application.Quit();
+	}
+
+	public void ReloadLevel() {
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	public void PreviousLevel() {
+		Application.LoadLevel(currentSceneIndex - 1);
+	}
+
+	public void NextLevel() {
+		Application.LoadLevel(currentSceneIndex + 1);
 	}
 
 	public void LoadLevelOne() {

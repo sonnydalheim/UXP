@@ -25,8 +25,14 @@ public class PlayerNew : MonoBehaviour {
 	bool crouch = false;
 	//public FreeParallax parallax;
 	public PlungerScript plungerScript;
+	private PauseMenuScript pauseMenuScript;
 	private CameraFollowSimple cameraFollowScript;
 	public GameObject PlayerRemains;
+	private GameObject dieMenu;
+	private Button previousButton;
+	private Button nextButton;
+	private Image previousButtonImage;
+	private Image nextButtonImage;
 
 	public BoxCollider2D boxCollider;
 
@@ -65,6 +71,12 @@ public class PlayerNew : MonoBehaviour {
 		controller = GetComponent<Controller2D> ();
 		plungerScript = GameObject.FindWithTag("Platform").GetComponent<PlungerScript>();
 		cameraFollowScript = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollowSimple>();
+		pauseMenuScript = GameObject.FindWithTag("MainCamera").GetComponent<PauseMenuScript>();
+		dieMenu = GameObject.FindWithTag("Die Menu Canvas");
+		previousButton = GameObject.FindWithTag("Previous Button").GetComponent<Button>();
+		nextButton = GameObject.FindWithTag("Next Button").GetComponent<Button>();
+		previousButtonImage = GameObject.FindWithTag("Previous Button Image").GetComponent<Image>();
+		nextButtonImage = GameObject.FindWithTag("Next Button Image").GetComponent<Image>();
 		gravity = -(2 * jumpHeight) / Mathf.Pow (timeToJumpApex, 2);
 		jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 		currentScene = SceneManager.GetActiveScene();
@@ -287,27 +299,44 @@ public class PlayerNew : MonoBehaviour {
 //		}
 	}
 
-//	IEnumerator StopParticles() {
-//		yield return new WaitForSeconds(0.1f);
-//		particleSystem.GetComponent<ParticleSystem>().enableEmission = false;
-//	}
+	IEnumerator Example() {
+		yield return new WaitForSeconds(3);
+		dieMenu.SetActive(true);
 
-//	IEnumerator Example() {
-//		yield return new WaitForSeconds(4);
-//	}
+		if(currentScene.name == "Test Level") {
+			nextButton.interactable = false;
+			nextButtonImage.color = new Color32(255,255,225,60);
+		}
+
+		if(currentScene.name == "No Trail") {
+			previousButton.interactable = false;
+			previousButtonImage.color = new Color32(255,255,225,60);
+		}
+	}
 
 	void OnCollisionEnter2D(Collision2D  collision) {
 		Collider2D collider = collision.collider;
 
 		if(collider.tag == "Obstacle") {
 			PlayerRemains.transform.SetParent(null);
-			Destroy (gameObject);
+			gameObject.GetComponent<MeshRenderer>().enabled = false;
 			PlayerRemains.SetActive(true);
 			PlayerRemains.GetComponentInChildren<Rigidbody2D>().velocity = new Vector3(-50, 50, 0);
+			trailRenderer.enabled = false;
 			cameraFollowScript.ShakeCamera(0.4f, 0.3f);
 			plungerScript.platformLaunched = false;
-//			StartCoroutine(Example());
-//			Application.LoadLevel(0);
+			StartCoroutine(Example());
+//			dieMenu.SetActive(true);
+//
+//			if(currentScene.name == "Test Level") {
+//				nextButton.interactable = false;
+//				nextButtonImage.color = new Color32(255,255,225,60);
+//			}
+//
+//			if(currentScene.name == "No Trail") {
+//				previousButton.interactable = false;
+//				previousButtonImage.color = new Color32(255,255,225,60);
+//			}
 		}
 	}
 
