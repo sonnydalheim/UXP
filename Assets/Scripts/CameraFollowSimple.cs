@@ -57,7 +57,7 @@ public class CameraFollowSimple : MonoBehaviour {
 			ZoomOut();
 
 			if(currentScene.name == "Screenshake") {
-				Vector2 shakePos = Random.insideUnitCircle * 0.08f;
+				Vector2 shakePos = Random.insideUnitCircle * 0.15f; // Was 0.08f
 				transform.position = new Vector3(transform.position.x + shakePos.x, transform.position.y + shakePos.y, transform.position.z);
 				shakeTimer -= Time.deltaTime;
 			}

@@ -83,7 +83,7 @@ public class PlayerNew : MonoBehaviour {
 		boxCollider = GetComponent<BoxCollider2D>();
 		CoinDisplay = GameObject.FindWithTag("Coin Counter").GetComponent<Text>();
 
-		if(currentScene.name == "Dense Level") {
+		if(currentScene.name == "Dense Level" || currentScene.name == "Dense Level Hard") {
 			CoinDisplay.text = "" + coinCounter.ToString("f0") + "/30";
 		}
 		else {
@@ -279,7 +279,7 @@ public class PlayerNew : MonoBehaviour {
 		{
 			coinCounter++;
 
-			if(currentScene.name == "Dense Level") {
+			if(currentScene.name == "Dense Level" || currentScene.name == "Dense Level Hard") {
 				CoinDisplay.text = "" + coinCounter.ToString("f0") + "/30";
 			}
 			else {
@@ -303,7 +303,7 @@ public class PlayerNew : MonoBehaviour {
 		yield return new WaitForSeconds(3);
 		dieMenu.SetActive(true);
 
-		if(currentScene.name == "Test Level") {
+		if(currentScene.name == "Dense Level Hard") {
 			nextButton.interactable = false;
 			nextButtonImage.color = new Color32(255,255,225,60);
 		}
